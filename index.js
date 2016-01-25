@@ -42,7 +42,7 @@ module.exports = {
         const timeout = {
           time: time,
           callback: callback,
-          singleShot: (opts||{}).singleShot !== undefined ? opts.singleShot : true,
+          singleShot: (opts||{}).singleShot !== undefined ? opts.singleShot : false,
           triggered: false,
         };
         timeouts.push(timeout);
