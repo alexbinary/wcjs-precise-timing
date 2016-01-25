@@ -4,55 +4,17 @@ module.exports = {
 
   for: function(wcjs) {
 
-    function currentWorldTime() {
-      return (new Date()).getTime();
-    }
-
-    let worldTimeLastSync = undefined;
-    let mediaTimeLastSync = undefined;
-
-    let playing = false;
-
     let timeouts = [];
 
-    wcjs.events.on('Playing', onStart);
     wcjs.events.on('TimeChanged', function(time) {
-      mediaTimeLastSync = time;
-      worldTimeLastSync = currentWorldTime();
-      onStart();
+      refreshTimeouts(time);
     });
-    wcjs.events.on('Buffering', function(p) {
-      if (p === 100) {
-        onStart();
-      } else {
-        onStop();
-      }
-    });
-    wcjs.events.on('Paused', onStop);
-    wcjs.events.on('Opening', onStop);
-    wcjs.events.on('Stopped', onStop);
-    wcjs.events.on('EndReached', onStop);
-    wcjs.events.on('EncounteredError', onStop);
-
-    function onStart() {
-      playing = true;
-      refreshTimeouts();
-    }
-
-    function onStop() {
-      mediaTimeLastSync = getCurrentMediaTime();
-      worldTimeLastSync = currentWorldTime();
-      playing = false;
-      stopTimeouts();
-    }
-
-    function getCurrentMediaTime () {
-      if (playing) {
-        return mediaTimeLastSync + (currentWorldTime() - worldTimeLastSync) * wcjs.input.rate;
-      } else {
-        return mediaTimeLastSync;
-      }
-    }
+    wcjs.events.on('Buffering', stopTimeouts);
+    wcjs.events.on('Paused', stopTimeouts);
+    wcjs.events.on('Opening', stopTimeouts);
+    wcjs.events.on('Stopped', stopTimeouts);
+    wcjs.events.on('EndReached', stopTimeouts);
+    wcjs.events.on('EncounteredError', stopTimeouts);
 
     function addTimeout(time, callback, opts) {
       const timeout = {
@@ -62,22 +24,19 @@ module.exports = {
         singleShot: opts.singleShot !== undefined ? opts.singleShot : true,
       };
       timeouts.push(timeout);
-      if (playing) {
-        startTimeout(timeout);
-      }
     }
 
-    function refreshTimeouts() {
+    function refreshTimeouts(time) {
       for (let i in timeouts) {
         if (timeouts[i] != null) {
-          refreshTimeout(timeouts[i]);
+          refreshTimeout(timeouts[i], time);
         }
       }
     }
 
-    function refreshTimeout(timeout) {
+    function refreshTimeout(timeout, time) {
       stopTimeout(timeout);
-      startTimeout(timeout);
+      startTimeout(timeout, time);
     }
 
     function stopTimeouts() {
@@ -92,8 +51,8 @@ module.exports = {
       clearTimeout(timeout.nativeTimeout);
     }
 
-    function startTimeout(timeout) {
-      const timespan = timeout.time - getCurrentMediaTime();
+    function startTimeout(timeout, time) {
+      const timespan = timeout.time - time;
       if (timespan >= 0) {
         timeout.nativeTimeout = setTimeout(function() {
           timeout.callback();
