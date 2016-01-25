@@ -24,3 +24,8 @@ timing.onTime(14200, function() {
 });
 
 ```
+
+## License
+
+The MIT License (MIT) - Copyright (c) 2016 Alexandre Bintz <alexandre@bintz.io>  
+See [LICENSE](LICENSE) file for full text.
