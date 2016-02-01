@@ -1,0 +1,31 @@
+{
+  "name": "wcjs-time-callback",
+  "version": "0.1.0",
+  "description": "Node.js module to attach callbacks to specific times in a WebChimera playback.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexbinary/wcjs-time-callback.git"
+  },
+  "keywords": [
+    "webchimera.js",
+    "vlc",
+    "playback",
+    "time",
+    "callback",
+    "timing",
+    "position",
+    "event",
+    "webchimera",
+    "wcjs"
+  ],
+  "author": "Alexandre Bintz <alexandre@bintz.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexbinary/wcjs-time-callback/issues"
+  },
+  "homepage": "https://github.com/alexbinary/wcjs-time-callback#readme"
+}
