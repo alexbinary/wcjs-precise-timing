@@ -1,4 +1,4 @@
-# wcjs-precise-timing
+# wcjs-time-callback
 
 > Node.js module to attach callbacks to specific time in a WebChimera playback with high accuracy.
 
@@ -9,7 +9,7 @@ This module makes smart use of the events provided by WebChimera and combine the
 ```javascript
 const vlc = require('wcjs-renderer').init(canvas);
 
-const timing = require('wcjs-precise-timing').for(vlc);
+const timing = require('wcjs-time-callback').for(vlc);
 
 timing.onTime(12500, function() {
   console.log('hello');  // will trigger at exactly 12 sec and 500 ms,
