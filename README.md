@@ -1,6 +1,6 @@
 # wcjs-time-callback
 
-> Node.js module to attach callbacks to specific time in a WebChimera playback with high accuracy.
+> Node.js module to attach callbacks to specific time in a WebChimera playback.
 
 This module makes smart use of the events provided by WebChimera and combine them with native javascript timeouts to trigger callbacks at very specific times.
 
